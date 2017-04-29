@@ -4,10 +4,13 @@
 Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 
 **RESUME**  
-`https://www.coursera.org/learn/machine-learning/lecture/GFFPB/gradient-descent-intuition`
+Review and Quiz `https://www.coursera.org/learn/machine-learning/supplement/ExY6Z/lecture-slides`
 
 ---
 
+# 1주차 ::: (5) @@@ Resume
+
+---
 
 # 1주차 ::: (4) Paremeter Learning
 
@@ -17,10 +20,16 @@ Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 + convergence : 한 점으로의 수렴
 + optimum : 점진적 하강으로 찾은 최소화 값
 + `a:=b` : b를 a에 할당한다.
-+ alpha : learning rate
++ `alpha` : learning rate
 + learning rate : 기울기가 하강한 정도
-+ large alpha : 기울기가 급격히 하강함
-+ simultaneous update : theta-0과 theta-1을 동시에 구함 (점진적 하강 알고리즘에 적용하는 규칙)
++ large `alpha` : 기울기가 급격히 하강함
++ simultaneous update : `theta-0`과 `theta-1`을 동시에 구함 (점진적 하강 알고리즘에 적용하는 규칙)
++ differential : 접선의 기울기 (= 순간변화율 = 미분 = derivative)
++ partial derivative : 편미분
++ minimum : derivative가 0인 곳
++ batch gradient descent : 점진적 하강은 한 번 하강할 때마다 모든 데이터셋 무리(the entire batch of training examples)를 이용한다는 것을 강조하는 말로 점진적 하강과 같은 말이다.
+
+> **Note** derivative와 differential은 다른 개념이지만, 본 수업에서는 이해를 돕기 위해 같은 것으로 간주한다.
 
 
 ## Gradient Descent (부제: to find parameters minimizing Cost Function)
@@ -48,11 +57,106 @@ Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 
 ### Formula
 
++ 수렴하는 점(convergence)을 찾을 때까지 아래 공식을 반복한다.
+
 ![gradientDescentFromula](http://www.holehouse.org/mlclass/01_02_Introduction_regression_analysis_and_gr_files/Image%20[17].png)
 
-## Gradient Descent - Intuition
+## Gradient Descent Formula ::: (1) derivative
 
-@@ resume
+### Summary
+
+점진적 하강 알고리즘은 `alpha`와 편미분항으로 구분되는데, `alpha`는 한 번에 하강하는 정도를 뜻하고 편미분항은 이동할 방향과 크기를 결정한다.
+
+### Explain
+
+시작점으로부터 점진적 하강 공식을 적용해보자. `theta-j`값은 시작점으로부터 이동하게 된다.
+이때 `alpha`는 항상 0보다 크므로, 이동 방향은 편미분항의 값에 따라 결정된다.
+
+편미분항은 접선의 기울기를 의미하는데, 접선의 기울기가 positive하다면 `alpha`와 편미분항의 곱이 양수가 되어 `theta-j`는 시작점보다 값이 작아지게 된다.
+시작점보다 작아진다는 것은 그래프 상에서 `theta-j`축으로부터 왼쪽으로 이동한다는 뜻이다. 점점 minimum에 가까워진다.
+
+반대로 접선의 기울기(=편미분항)가 negative하다면 `theta-j`는 시작점보다 값이 커지게 된다. 그래프 상에서 `theta-j`축으로부터 오른쪽으로 이동한다. 점점 minimum에 가까워진다.
+
+### Outline
+
++ 편미분항 값을 구하려면 시작점의 접선의 기울기를 구하면 된다.
++ 접선의 기울기가 positive하다면, `theta`값은 작아진다.
++ 접선의 기울기가 negative하다면, `theta`값은 커진다.
+
+## Gradient Descent Formula ::: (2) alpha
+
+### Summary
+
+`alpha` 값에 따라 minimum까지 도착하는데 오래 걸릴 수도 있고, 아예 멀어지거나 발산할 수도 있다.
+
+### Explain
+
+`alpha` 값이 너무 작으면 편미분항을 곱해도 값이 미미하므로 아주 조금씩 이동하게 되고 결국 minimum까지 도착하는데 오래 걸린다.
+
+`alpha` 값이 너무 크면 편미분항을 곱했을 때 값이 너무 커져서 minimum으로 수렴하지 못하거나 심지어 발산하게 된다.
+
+![alpha](https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/UJpiD6GWEeai9RKvXdDYag_3c3ad6625a2a4ec8456f421a2f4daf2e_Screenshot-2016-11-03-00.05.27.png?expiry=1493596800000&hmac=sZugRKrn0bEjIpICRF2nSPPRrsyoeCvyAQTACRRA894)
+
+### Outline
+
++ `alpha`는 항상 0보다 크다.
++ `alpha`를 너무 작게 설정하면 minimum까지 도착하는데 오래 걸린다.
++ `alpha`를 너무 크게 설정하면 minmum으로부터 멀어지거나 심지어 발산하게 된다.
+
+## Gradient Descent Formula ::: (3) 시작점
+
+### Summary
+
+시작점에 따라 global minimum이 아니라 local minimum으로 수렴할 수도 있다.
+
+### Explain
+
+시작점에서 점진적 하강을 하다보면 편미분항이 0이 되는 시점을 발견할 수 있다.
+그러나 이 시점은 local minimum일뿐 반드시 global minimum이 라고 할 수는 없다.
+더 낮은 minimum이 있다고 하더라도, 한 번 편미분항이 0이 되면 더 이상 이동하지 않기 때문이다. 아래 그림을 참조해보자.
+
+### Visualize
+
+![globalMinimum](https://wikidocs.net/images/page/7635/linreg702.PNG)
+
+## Gradient Descent For Linear Regression (부제: Apply Gradient Descent to Minimize Cost Function of Linear Regression)
+
+### Summary
+
+선형 회귀의 비용 함수에 점진적 하강을 적용하면 유일한 global optima를 찾을 수 있다.
+global optima에 해당하는 parameters를 적용하면 선형 회귀 모델을 만들 수 있다.
+
+### Explain
+
+지금까지의 내용을 요약하면 다음과 같다.
+샘플 데이터가 잘 맞는(fit) 선형 회귀 모델을 만들려면, 샘플 데이터와 가설 함수의 오차가 최소화되어야 한다.
+그런데 오차는 모델의 parameters를 어떻게 잡느냐에 따라 달리진다.
+parameters에 따른 오차를 구하려면 비용 함수를 적용해야 한다.
+선형 회귀에서는 LSM을 비용 함수로 적용한다.
+우리는 오차가 가장 적은 모델을 구해야 하므로 비용 함수의 최소값을 알아야 한다.
+비용 함수의 최소값을 알려면 점진적 하강 알고리즘을 적용해야 한다.
+
+선형 회귀의 비용 함수는 밥그릇 같은 볼록 함수 모양을 띈다.
+볼록 함수에 점진적 하강 알고리즘을 적용하면 단 한 개의 optimum을 구할 수 있다.
+이러한 global optimum에 해당하는 parameters를 구하면 우리가 원하는 선형 회귀 모델을 완성할 수 있다.
+
+### Visualize
+
++ 비용 함수에 점진적 하강 알고리즘을 적용했을 때 시작점에 따라 local optima가 달라질 수 있다.
++ 그러나 선형 회귀의 비용 함수는 딱 1개의 global optimum을 가진다.
++ 선형 회귀의 비용 함수는 항상 다음과 같이 밥그릇(bowl) 모양을 띈다.
++ 볼록 함수(convex function)라고 부른다.
+
+![visualizingCostFunction](http://www.holehouse.org/mlclass/01_02_Introduction_regression_analysis_and_gr_files/Image%20[14].png)
+
++ 선형 회귀 모델이 2차 방정식일 때, 비용 함수에 점진적 하강을 적용한 모습은 다음과 같다.
++ 파란색 점(`theta`)이 바깥 원에서 안쪽 원으로 이동하면서 편미분항이 0이 되는 곳(global minimum)을 찾아간다.
+
+![visualizingCostFunction-quadratic](https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/xAQBlqaaEeawbAp5ByfpEg_24e9420f16fdd758ccb7097788f879e7_Screenshot-2016-11-09-08.36.49.png?expiry=1493596800000&hmac=p7Sphj6I1frNmGOWh-U4bwvlDN2znIQg2sVaSb8giUE)
+
+> **Note**  optima는 복수이고 optimum은 단수이다.
+
+**끝.**
 
 ---
 
@@ -130,7 +234,7 @@ LSE는 Least Squared Error를 뜻한다.
 
 ### Outline
 
-+ ![costFunction](http://cfile2.uf.tistory.com/image/2679364956E67C62111446)
+![costFunction](http://cfile2.uf.tistory.com/image/2679364956E67C62111446)
 
 + 비용 함수를 2차원 그래프로 나타내면 등고선 그래프가 그려진다.
 + 비용 함수를 3차원 그래프로 나타내면 아래와 같다.
