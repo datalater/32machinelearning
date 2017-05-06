@@ -3,8 +3,97 @@
 **SOURCE**  
 Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 
+**NOTE-TAKING**  
+수학 기호 : ㅎ/ㄷ + 한자키
+
 **RESUME**  
-2주차 `https://www.coursera.org/learn/machine-learning/supplement/ks2m0/setting-up-your-programming-assignment-environment`
+2주차 `https://www.coursera.org/learn/machine-learning/lecture/xx3Da/gradient-descent-in-practice-i-feature-scaling`
+
+---
+
+# 2주차 ::: (1) Multivariate Linear Regression
+
+## 용어 정리
+
++ m : training example의 수
++ n : feature의 수
++ $ x^{(i)} $ : i번째 training example의 features를 원소로 하는 벡터
+    + i는 training example의 index를 뜻함.
+    + "테이블의 i번째 줄"을 보라는 뜻
+    + i번째 training example의 모든 features를 가리키며, 벡터로 표현함.
++ $ x^{(i)}_j $ : $ x^{(i)} $ 벡터의 j번째 원소
+    + j는 $ x^{(i)} $ 벡터의 index를 뜻함.
+
+
+## Multiple Features
+
+### Summary
+
+output 변수 y를 예측하기 위해 input 변수가 여러 개 있는 것을 multiple features라고 한다.
+
+> **Note** 여기서 features와 variables를 같은 뜻으로 봐도 무방하다. multiple variables 또는 multivariate는 우리말로 "다변량"으로 번역하기도 한다.
+
+### Explain
+
+다중회귀의 가설 함수는 n개의 `x`와 n+1개의 `theta`로 이루어진다. 이때 계산을 편하게 하기 위해 `x_0=1`로 정의한다. 그러면 아래 그림과 같이 벡터 `x`와 벡터 `theta`를 표현할 수 있다.
+
+![multivariate_hypothesis_function](https://wikidocs.net/images/page/7639/muti104.PNG)
+
+가설 설함수는 `theta`와 `x`의 곱으로 이루어진다. 이를 한번에 packing 해서 표현하기 위해 벡터 `theta`를 전치행렬(`theta^T`)로 전환하면 행렬의 곱셈 형태(`theta^T * x`)로 나타낼 수 있다.
+
+### Outline
+
++ multiple features의 가설 함수는 행렬의 곱셈으로 나타낼 수 있다.
++ multiple features의 가설 함수의 parameters는 `theta_0`부터 `theta_n`까지 있다.
++ 이 수업부터 성질이 같은 여러 개의 원소는 벡터로 표현하게 될 것이다.
++ multiple features의 가설 함수의 parameters는 (n+1)-dimensional vector이다.
++ multiple features의 가설 함수의 parameters는 어떻게 찾을까?
+
+## Cost Function for Multiple Variables
+
+### Summary
+
+multiple features의 비용 함수는 변수가 1개일 때의 비용 함수와 같은 꼴이지만, parameters를 벡터화해서 나타낸다.
+
+> **Note** 벡터화 : vectorize
+
+### Explain
+
+![CostFunctionForMultipleVariables](http://www.holehouse.org/mlclass/04_Linear_Regression_with_multiple_variables_files/Image.png)
+
+위 식을 vectorize 하면, 체크박스의 식과 같아진다.
+
+![CostFunctionForMultipleVariables_vectorized](https://github.com/datalater/machine-learning/blob/master/images/CostFunctionForMultipleVariables_vectorized.png?raw=true)
+
+### Outline
+
++ multiple features의 비용 함수는 변수가 1개일 때의 비용 함수와 같은 꼴이지만, parameters를 벡터화해서 나타낸다.
++ multiple features의 비용 함수의 최소값도 점진적 하강 알고리즘을 적용한다.
+
+## Gradient Descent for Multiple Variables
+
+### Summary
+
+변수가 하나일 때의 점진적 하강 알고리즘과 같은 꼴이지만, n개의 features에 대해 반복한다는 점이 다르다.
+
+### Explain
+
+![GradientDescentForMultipleFeatures](http://www.holehouse.org/mlclass/04_Linear_Regression_with_multiple_variables_files/Image%20[3].png)
+
+n개의 features를 가진 점진적 하강 알고리즘은 위 그림과 같다. 위 식을 n개의 features, 즉 n개의 parameters별로 적용해야 한다.
+
+### Outline
+
++ multiple features의 점진적 하강 알고리즘은 변수가 1개일 때의 점진적 하강 알고리즘과 같은 꼴이지만, n개의 features에 대해 반복한다는 점이 다르다.
+
+## @@@resume@@@ Gradient Descent in Practice I - Feature Scaling
+
+### Summary
+
+### Explain
+
+### Outline
+
 
 ---
 
@@ -21,12 +110,7 @@ Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 + n-dimensional vector : row가 n개인 벡터
 + **scalar** : 벡터나 행렬처럼 배열이 아니라 원소가 하나(single value)인 객체를 가리키는 말. 따라서 벡터나 행렬의 원소를 scalar라고 칭할 수 있음.
 + real number : scalar와 같은 뜻이라고 봐도 무방
-
-
 + **matrix vs. vector vs. scalar** : scalar가 2차원 배열로 구성되면 matrix이고, scalar가 2차원 배열이면서 column이 1개이면 vector가 됨.
-
-
-<!-- + R : scalar real numbers의 집합 -->
 + 대문자 변수 : 주로 matrix를 가리킴. ex. `Y`
 + 소문자 변수 : 주로 vector를 가리킴. ex. `y`
 + 1-indexed : 1부터 시작하는 index
