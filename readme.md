@@ -4,15 +4,112 @@
 Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 
 **RESUME**  
-Review and Quiz `https://www.coursera.org/learn/machine-learning/supplement/ExY6Z/lecture-slides`
+2주차 `https://www.coursera.org/learn/machine-learning/supplement/ks2m0/setting-up-your-programming-assignment-environment`
 
 ---
 
-# 1주차 ::: (5) @@@ Resume
+# 1주차 ::: (5) Linear Algebra Review
+
+## Matrices and Vectors
+
+## 용어 정리
+
++ **matrix** : 숫자로 구성된 직사각형 배열 (= 2차원 배열 = 행렬)
++ matrices : matrix의 복수형
++ dimension of matrix : 행렬의 차원. row 개수 * column 개수. R로 표현.
++ **vector** : 행렬의 특별한 케이스. column이 1개인 행렬. N by 1 matrix
++ n-dimensional vector : row가 n개인 벡터
++ **scalar** : 벡터나 행렬처럼 배열이 아니라 원소가 하나(single value)인 객체를 가리키는 말. 따라서 벡터나 행렬의 원소를 scalar라고 칭할 수 있음.
++ real number : scalar와 같은 뜻이라고 봐도 무방
+
+
++ **matrix vs. vector vs. scalar** : scalar가 2차원 배열로 구성되면 matrix이고, scalar가 2차원 배열이면서 column이 1개이면 vector가 됨.
+
+
+<!-- + R : scalar real numbers의 집합 -->
++ 대문자 변수 : 주로 matrix를 가리킴. ex. `Y`
++ 소문자 변수 : 주로 vector를 가리킴. ex. `y`
++ 1-indexed : 1부터 시작하는 index
++ 0-indexed : 0부터 시작하는 index
++ identity matrix : 단위 행렬. 곱셈에서 교환법칙이 성립되게 만드는 정사각 행렬
+
+## Matrix-Vector Multiplication
+
+### Summary
+
+회귀 알고리즘에서 하나의 가설 함수의 `(x, h(x))` 값을 구할 때, 간단하고 효율적으로 코드를 작성하기 위해 "**행렬과 벡터의 곱셈**"을 사용한다.
+
+> **Note** 단순회귀 알고리즘에서 데이터는 행렬로 나타내고 방정식의 parameters는 벡터로 나타낸다. 이 둘을 곱하면 가설 함수의 예측 값을 계산할 수 있다.
+
+### Visualize
+
++ 집 크기로 집값을 예측하는 회귀식에 행렬과 벡터의 곱셈을 적용하는 방법은 다음과 같다.
+
+![matrix_vector_multiplication01](https://github.com/datalater/machine-learning/blob/master/images/matrix_vector_multiplication01.jpg?raw=true)
+
++ 이러한 연산을 다음과 같이 일반화할 수 있다.
+
+![matrix_vector_multiplication02](https://github.com/datalater/machine-learning/blob/master/images/matrix_vector_multiplication02.jpg?raw=true)
+
++ 가설 함수의 값 (prediction) = 데이터 행렬 * parameters
+
+### Outline
+
++ `m by n` matrix * `n by 1` vector = `m by 1` vector
++ 단순회귀에서 데이터는 행렬로 나타내고 parameters는 vector로 나타낸다.
+
+## Matrix-Matrix Multiplication
+
+### Summary
+
+회귀 알고리즘에서 "**여러 개**"의 가설 함수의 `(x, h(x))` 값을 구할 때, 간단하고 효율적으로 코드를 작성하기 위해 "**행렬과 행렬의 곱셈**"을 사용한다.
+
+> **Note** 데이터의 원소가 m개이고 가설 함수가 n개 있을 때, 이를 한번에 계산할 수 있다.
+
+### Visualize
+
++ 데이터 4개, 가설 함수 3개라면 12개의 예측값(prediction)을 구해야 한다.
+
++ 아래와 같이 행렬과 행렬의 곱셈을 이용하면 12개의 예측값을 한번에 효율적으로 구할 수 있다.
+
+![matrix_matrix_multiplication01](https://github.com/datalater/machine-learning/blob/master/images/matrix_matrix_multiplication01.jpg?raw=true)
+
+### Outline
+
++ 데이터와 가설함수의 parameters를 각각 행렬로 나타내서 곱한다.
++ 수많은 연산을 한번에 packing 하기 위해 행렬의 곱셈을 사용한다.
+
+## Matrix Multiplication Properties
+
+### Summary
+
+행렬의 곱셈은 실수의 곱셈과 달라서, 교환법칙이 성립되지 않는다. 하지만 단위행렬을 활용하면 곱셈의 교환법칙이 성립된다.
+
+
+## Inverse and Transpose
+
+### Summary
+
+어떤 행렬의 역행렬이 없다면 그 행렬의 원소는 0에 가깝다는 뜻이며, 알고리즘을 계산할 때 행과 열을 바꾸는 전치행렬을 사용해야 할 때가 있을 것이다. (추측)
+
+> **Note** 역행렬 (inverse matrix), 전치행렬 (transpose matrix)
+
+### Explain
+
+행렬 A와 곱했을 때 그 결과가 단위 행렬이 나오는 행렬을 행렬 A의 역행렬이라 한다. 그런데 영행렬은 역행렬이 없다. 머신러닝에서 가져가야 할 인사이트는 어떤 행렬의 역행렬이 없다면 그 행렬의 원소는 0에 가깝다는 것이다. 역행렬이 없는 행렬을 "singular" 또는 "degenerate"라고 한다.
+
+행렬 A의 행과 열을 뒤바꾼 것을 행렬 A의 전치행렬이라 한다. 전치행렬을 만드는 관점은 크게 3가지가 있다.
+첫번째, row와 column을 한꺼번에 이동하는 관점. 첫 번째 row의 값들이 첫 번째 colum의 값들로 변경되고, 두 번째 row의 값들이 두 번째 column의 값들로 변경된다.  
+두번째, row와 column으로 이루어진 주소를 하나씩 이동하는 관점. (1,2)의 값이 (2,1)의 값으로 변경된다.  
+세번째, 대각선을 기준으로 값을 대칭시키는 관점. (k, k)의 값은 그대로 두고 나머지 값을 대각선을 기준으로 대칭시킨다.
+
+지금까지 배운 선형대수의 행렬과 벡터의 개념은 이번 머신러닝 코스에서 계속 사용될 것이다. 강력한 알고리즘을 끌어내기 위해서는 이러한 선형대수 개념이 필요하다는 것을 기억해두자.
+
+**끝.**
 
 ---
 
-# 1주차 ::: (4) Paremeter Learning
+# 1주차 ::: (4) Parameter Learning
 
 ## 용어 정리
 
@@ -32,7 +129,7 @@ Review and Quiz `https://www.coursera.org/learn/machine-learning/supplement/ExY6
 > **Note** derivative와 differential은 다른 개념이지만, 본 수업에서는 이해를 돕기 위해 같은 것으로 간주한다.
 
 
-## Gradient Descent (부제: to find parameters minimizing Cost Function)
+## Gradient Descent (부제: to find parameters minimizing cost function)
 
 ### Summary
 
@@ -53,13 +150,17 @@ Review and Quiz `https://www.coursera.org/learn/machine-learning/supplement/ExY6
 
 ### Visualize
 
-![GradientDescent](https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/bn9SyaDIEeav5QpTGIv-Pg_0d06dca3d225f3de8b5a4a7e92254153_Screenshot-2016-11-01-23.48.26.png?expiry=1493596800000&hmac=mMU13dJ3oHYQ_c8d4bqpedu2keNpVibfJkN7GK1xREk)
+![GradientDescent](http://www.holehouse.org/mlclass/01_02_Introduction_regression_analysis_and_gr_files/Image%20[16].png)
 
 ### Formula
 
 + 수렴하는 점(convergence)을 찾을 때까지 아래 공식을 반복한다.
 
 ![gradientDescentFromula](http://www.holehouse.org/mlclass/01_02_Introduction_regression_analysis_and_gr_files/Image%20[17].png)
+
++ `theta` 값은 아래와 같이 동시에 업데이트한다.
+
+![simultaneous-update](http://www.holehouse.org/mlclass/01_02_Introduction_regression_analysis_and_gr_files/Image%20[19].png)
 
 ## Gradient Descent Formula ::: (1) derivative
 
@@ -95,7 +196,9 @@ Review and Quiz `https://www.coursera.org/learn/machine-learning/supplement/ExY6
 
 `alpha` 값이 너무 크면 편미분항을 곱했을 때 값이 너무 커져서 minimum으로 수렴하지 못하거나 심지어 발산하게 된다.
 
-![alpha](https://d3c33hcgiwev3.cloudfront.net/imageAssetProxy.v1/UJpiD6GWEeai9RKvXdDYag_3c3ad6625a2a4ec8456f421a2f4daf2e_Screenshot-2016-11-03-00.05.27.png?expiry=1493596800000&hmac=sZugRKrn0bEjIpICRF2nSPPRrsyoeCvyAQTACRRA894)
+### Visualize
+
+![alpha](https://wikidocs.net/images/page/7635/linreg701.PNG)
 
 ### Outline
 
@@ -140,6 +243,8 @@ parameters에 따른 오차를 구하려면 비용 함수를 적용해야 한다
 볼록 함수에 점진적 하강 알고리즘을 적용하면 단 한 개의 optimum을 구할 수 있다.
 이러한 global optimum에 해당하는 parameters를 구하면 우리가 원하는 선형 회귀 모델을 완성할 수 있다.
 
+> **Note** 처음에는 임의로 설정한 parameter에서 출발하여 iteration이 거듭될수록 점점 정확한 hypothesis가 되는 것이다. 또한, Linear regression cost function은 convex이므로 항상 global optima에 수렴한다. (출처: https://wikidocs.net/7635)
+
 ### Visualize
 
 + 비용 함수에 점진적 하강 알고리즘을 적용했을 때 시작점에 따라 local optima가 달라질 수 있다.
@@ -167,8 +272,8 @@ parameters에 따른 오차를 구하려면 비용 함수를 적용해야 한다
 + model : training data set을 일반화한 함수/방정식
 + model representation : 모델 만들기
 + hypothesis : 가설 함수 (=모델에 대한 함수/방정식)
-+ paremeter : 가설 함수의 기울기와 절편
-+ error : 오차 (=가설함수와 실제 데이터의 차이)
++ parameter : 가설 함수의 매개변수 (=함수의 기울기 또는 절편)
++ error : 오차 (=가설 함수와 실제 데이터의 차이)
 + cost function : 모델의 오차를 구하는 함수/방정식
 
 
@@ -183,7 +288,7 @@ training data set을 일반화하기 위한 가설 함수를 만들면 된다.
 가설 함수를 만들려면 방정식을 세우면 된다. 단순 회귀모델은 input 변수가 1개이다.
 따라서 단순 회귀모델의 가설 함수는 직선을 가진 1차 방정식이 된다.
 직선의 방정식을 구하려면 절편 값과 기울기를 알아야 한다.
-여기서 기울기를 parameter라고 한다.
+여기서 기울기나 절편을 parameter라고 한다.
 parameter에 어떤 값이 들어가느냐에 따라 모델이 달라진다.
 
 ### Outline
@@ -257,7 +362,7 @@ LSE는 Least Squared Error를 뜻한다.
 
 ## 용어 정리
 
-+ 선형회귀 : lnear regression
++ 선형회귀 : linear regression
     + supervised learning에 속하고
     + output이 연속적인 값이면서
     + input과 output 사이에 선형관계가 존재할 때 사용한다.
@@ -284,7 +389,7 @@ LSE는 Least Squared Error를 뜻한다.
 
 1. 변수가 input과 output으로 나눠질 때 (supervised learning)
 2. output 변수가 연속적인 값일 때 (continuous output)
-3. input과 output사이에 선형적인 관계가 존재한다고 가정할 때 (linear relationship)
+3. input과 output 사이에 선형적인 관계가 존재한다고 가정할 때 (linear relationship)
 
 
 ### Outline
