@@ -7,7 +7,164 @@ Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 수학 기호 : ㅎ/ㄷ + 한자키
 
 **RESUME**  
-2주차 `https://www.coursera.org/learn/machine-learning/lecture/xx3Da/gradient-descent-in-practice-i-feature-scaling`
+2주차 `https://www.coursera.org/learn/machine-learning/lecture/2DKxQ/normal-equation`
+
+---
+
+**목차**  
+
+<ul>
+<li><a href="#1주차--1-introduction">1주차 ::: (1) Introduction</a></li>
+<li><a href="#1주차--2-regression">1주차 ::: (2) Regression</a></li>
+<li><a href="#1주차--3-model-and-cost-function">1주차 ::: (3) Model and Cost Function</a></li>
+<li><a href="#1주차--4-parameter-learning">1주차 ::: (4) Parameter Learning</a></li>
+<li><a href="#1주차--5-linear-algebra-review">1주차 ::: (5) Linear Algebra Review</a></li>
+<li><a href="#2주차--1-multivariate-linear-regression">2주차 ::: (1) Multivariate Linear Regression</a></li>
+<li><a href="#"></a></li>
+<li><a href="#"></a></li>
+<li><a href="#"></a></li>
+<li><a href="#"></a></li>
+<li><a href="#"></a></li>
+</ul>
+
+---
+
+# 2주차 ::: (6) Computing Parameters Analytically
+
+## 용어 정리
+
+
+## Summary
+
+
+## Explain
+
+
+
+---
+
+# 2주차 ::: (5) Features and Polynomial Regression (부제: data에 fit하게 feature를 올바르게 선택하는 방법)
+
+## 용어 정리
+
++ `polynomial regression` : feature의 형태를 다양하게 만들어야 하는 다항식 회귀
+
+## Summary
+
+데이터에 fit한 모델을 만들려면 feature들을 각각 다르게 design해야 한다.
+
+## Explain
+
++ 때때로 새로운 feature를 정의했을 때 더 나은 모델을 얻을 수 있다.
++ 여러 가지 feature를 다양하게 만들어야 하는 회귀를 polynomial regression이라고 한다.
+
+> **Note:** polynomial regression은 '다항식 회귀'를 뜻한다.
+
++ hypothesis function이 반드시 linear할 필요는 없다.
++ 데이터에 fit하려면 다양한 형태를 가질 수 있다.
++ 예를 들면 2차 함수, 3차 함수, 제곱근 함수를 활용할 수 있다.
+
+![polynomialRegression](https://github.com/datalater/machine-learning/blob/master/images/polynomialRegression.PNG?raw=true)
+
++ 위 그래프에 대한 설명은 다음과 같다.
++ 초기에 위쪽으로 볼록하게 휘어진 x점에 fit하려면 2차 함수를 떠올릴 수 있다.
++ 그런데 2차 함수는 나중에 감소하는 형태이므로 적절하지 않다.
++ 그러므로 3차 함수를 고려할 수 있다.
++ 3차 함수 꼴로 나타내었을 때 새로운 feature `x_2`와 `x_3`가 추가된다.
++ 또 제곱근 형태로 feature를 만들 수도 있다.
++ 여기서 주의할 점은 feature의 차수가 다르기 때문에 feature scaling이 중요해진다는 것이다.
++ 가령, 3차 함수 꼴로 나타낸다면 각 feature의 범위는 다음과 같다.
+    + x_1의 범위 : 1~`10^3`
+    + x_2의 범위 : 1~`10^6`
+    + x_3의 범위 : 1~`10^12`
+
+## Quiz
+
+![polynomialRegression-Quiz](https://github.com/datalater/machine-learning/blob/master/images/polynomialRegression-quiz2.png?raw=true)
+
+**끝.**
+
+---
+
+# 2주차 ::: (4) Gradient Descent in Practice II - Learning Rate
+
+
+## 용어 정리
+
++ `debugging` : gradient descent가 제대로 작동하고 있는지 확인하는 방법
++ `automatic convergence test` : gradient descent를 한 번 iterate했을 때 cost function의 값이 `10^-3`보다 적게 감소하면 convergence라고 선언한다.
+    + 단, 반드시 `10^-3`일 필요는 없고 이처럼 작은 값이 기준이 된다는 것이다.
+    + 그러나 `10^-3`과 같은 작은 값을 정하는 기준이 명확하지 않기 때문에 Andrew Ng 교수는 반복 횟수에 따른 cost function의 값을 표현한 그래프를 통해 convergence 여부를 확인하는 것을 선호한다.
+
+## Summary
+
+gradient descent가 제대로 작동하고 있는지 알려면 iterate할 때 마다 cost function의 값이 줄어드는지 그래프로 확인해보면 된다.
+그리고 cost function의 값이 빠르게 converge하도록 alpha 값의 범위를 not too small and not too large한 범위에서 조절해야 한다.
+
+## Explain
+
++ `Debugging` : gradient descent가 제대로 작동하고 있는지 확인하는 방법
++ gradient descent가 제대로 작동하고 있다면 iteration을 반복할수록 cost function의 value가 줄어들어야 한다.
++ 이를 함수의 그래프로 나타낸다면, cost fuction의 값이 줄어든다면 gradient descent가 제대로 작동하고 있는 것이고, 줄어들다가 평평해지는 지점이 생긴다면 그곳이 바로 convergence가 될 것이다.
++ 따라서 다음과 같은 함수의 그래프를 떠올릴 수 있다.
+
+![debuggingGradientDescent]()
+
++ 또, debugging을 위해 cost function의 값이 converge하고 있는지 테스트해봐도 된다.
++ 이를 automatic convergence test라고 한다.
+
+> **Note:** 그러나 `## 용어 정리`에 있는 내용처럼 Ng 교수는 함수의 그래프를 통해 debugging 하는 것을 더 선호한다.
+
++ alpha가 너무 작으면 : 느리게 수렴한다
++ alpha가 너무 크면 : 반복해도 감소하지 않거나 수렴하지 않는다
+
++ alpha 값을 선택하는 방법 :
+    + too small한 alpha와 too large한 alpha를 찾고 그 사이에서 조절한다.
+    + cost function의 값을 빠르게 감소시키도록 alpha 값을 비율을 늘린다.
+    + ex. 0.001 > 0.003 > 0.01 > 0.03 > 0.1 > 0.3 > 1
+
+**끝.**
+
+
+---
+
+# 2주차 ::: (3) Gradient Descent in Practice I - Feature Scaling
+
+## Summary
+
+모든 feature가 비슷한 범위에 있으면 gradient descent가 더 빠르게 수렴하는 데에 도움이 된다.
+그래서 Feature Scaling을 한다.
+
+## Explain
+
++ 두 가지 feature가 있을 때 x1의 범위가 x2의 범위보다 훨씬 크다면,
++ countour plot이 아래처럼 매우 길쭉한 타원형(skewed oval)이 된다.
++ 그렇게 되면 gradient descent가 global minimum까지 도달하는 시간이 길어지게 된다.
+
+![BeforeFeatureScaling](https://github.com/datalater/machine-learning/blob/master/images/BeforeFeatureScaling.png?raw=true)
+
++ 그러나 범위를 조절하면 contour plot이 좀 더 원형(circle)에 가깝게 된다.
++ 원형에 가까운 상태일 수록 gradient descent가 global minimum까지 도달하는 시간이 짧아진다.
++ 이렇게 feature들의 범위를 서로 비슷하게 조절하는 것을 feature scaling이라 한다.
+
+![AfterFeatureScaling](https://github.com/datalater/machine-learning/blob/master/images/AfterFeatureScaling.png?raw=true)
+
++ Feature Scaling : 모든 변수의 범위를 대략 `-1<=x_i<=1` 로 맞추는 것
++ 단, 비슷하면 좋은 것이지 특정 변수의 범위가 반드시 -1과 1사이이거나 변수끼리 범위가 똑같을 필요는 없다.
+    + `-3<=x_1<=3` (o)
+    + `-1/3<=x_2<=1/3` (o)
+    + `-100<=x_3<=100` (x)
+    + `-0.0001<=x_4<=0.0001` (x)
+
+> **Note:** 단, `x_0=1` 이다.
+
++ Feature Scaling의 한 가지 방법 : mean normalization (정규화)
++ 모든 feature의 평균을 0으로 만들기 위해 `x_i`를 `(x_i-mu_i)/(max-min)`로 대체한다.
++ 주의할 점은 feature scaling이 반드시 정확하게 계산할 필요는 없다는 것이다.
+    + 가령 x_1을 정규화했을 때 분모가 5이고 x_2를 정규화했을 때 분모가 4라면, 두 feature의 범위를 비슷하게 만들어주기 위해 x_2를 정규화할 때 분모를 5로 변경해도 괜찮다.
+
+
+**끝.**
 
 ---
 
@@ -86,14 +243,7 @@ n개의 features를 가진 점진적 하강 알고리즘은 위 그림과 같다
 
 + multiple features의 점진적 하강 알고리즘은 변수가 1개일 때의 점진적 하강 알고리즘과 같은 꼴이지만, n개의 features에 대해 반복한다는 점이 다르다.
 
-## @@@resume@@@ Gradient Descent in Practice I - Feature Scaling
-
-### Summary
-
-### Explain
-
-### Outline
-
+**끝.**
 
 ---
 
@@ -486,7 +636,7 @@ LSE는 Least Squared Error를 뜻한다.
 
 ---
 
-# 1주차 :::: (1) Introduction
+# 1주차 ::: (1) Introduction
 
 ## 머신러닝이란 무엇인가?
 
