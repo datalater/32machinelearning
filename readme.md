@@ -108,7 +108,7 @@ gradient descent가 제대로 작동하고 있는지 알려면 iterate할 때 �
 + 이를 함수의 그래프로 나타낸다면, cost fuction의 값이 줄어든다면 gradient descent가 제대로 작동하고 있는 것이고, 줄어들다가 평평해지는 지점이 생긴다면 그곳이 바로 convergence가 될 것이다.
 + 따라서 다음과 같은 함수의 그래프를 떠올릴 수 있다.
 
-![debuggingGradientDescent]()
+![debuggingGradientDescent](https://github.com/datalater/machine-learning/blob/master/images/debuggingGradientDescent.png?raw=true)
 
 + 또, debugging을 위해 cost function의 값이 converge하고 있는지 테스트해봐도 된다.
 + 이를 automatic convergence test라고 한다.
