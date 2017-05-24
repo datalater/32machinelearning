@@ -7,7 +7,7 @@ Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 수학 기호 : ㅎ/ㄷ + 한자키
 
 **RESUME**  
-2주차 `https://www.coursera.org/learn/machine-learning/lecture/2DKxQ/normal-equation`
+2주차 `https://www.coursera.org/learn/machine-learning/lecture/Y6uuC/computing-on-data`
 
 ---
 
@@ -29,21 +29,165 @@ Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 
 ---
 
-# 2주차 ::: (6) Computing Parameters Analytically
+# 2주차 ::: (6) Octave
 
-## 용어 정리
+## Basic Operations
 
+### Basic
 
-## Summary
++ `~=` : 같지 않다
++ `&&` : and
++ `||` : OR
++ `PS1('>> ');` : 프롬프트 사인을 `>> `으로 변경하기
 
+### Variables
 
-## Explain
++ `a = 3` : 변수 a에 3을 할당하고, 출력한다.
++ `a = 3;` : 변수 a에 3을 할당하고, 출력하지 않는다.
++ `disp()` : 괄호 안에 있는 내용을 출력한다.
++ `format long` or `format short` : 숫자의 출력 범위 지정
 
+### Generate Vectors and Matrices
+
++ `A = [1 2; 3 4; 5 6]` : 3 by 2 matrix 생성
++ `v = [1; 2; 3]` : 1 by 3 vector (= 3 by 1 matrix)
+
+> **Note:** m by 1 matrix = 1 by m vector
+
++ `v = 1:0.1:2` : 1부터 0.1씩 증가하여 2까지 도달하는 값을 column으로 만든다.
++ `v = 1:6` : 1부터 6까지의 값을 만든다.
++ `ones(2,3)` : 모든 요소의 값이 1인 2 by 3 matrix 생성
++ `C = 2*ones(2,3)` : 모든 값이 2인 2 by 3 matrix 생성
++ `w = zeros(1,3)` : 모든 값이 0인 3 by 1 vector 생성
++ `w = rand(1,3)` : 값이 0부터 1 사이의 random인 1 by 3 matrix 생성
++ `w = randn(1,3)` : 평균이 0이고 표준편차가 1인 가우스 분포의 random 값인 1 by 3 matrix 생성
+
+> **Note:** 가우스 분포 (Gaussian distribution) = 정규분포 (normal distribution)
+
++ `hist(w)` : histogram으로 변수 w를 plot한다.
++ `hist(w, 50)` : bucket을 50으로 지정하고 histogram으로 변수 w를 plot한다.
++ `eye(4)` : 4 by 4 identity matrix (단위행렬) 생성
++ `help eye` : eye 함수에 대한 help를 보여준다.
+
+## Moving data around
+
+### size of matrix and length of vector
+
++ `size(A)` : (행렬) A에 대한 size를 1 by 2 matrix로 출력
++ `length(v)` : 가장 큰 차원의 size를 출력 (보통 vector 변수에만 사용한다)
+
+### 파일 load하기
+
++ `pwd` : 현재 디렉토리 주소 출력
++ `ls` : 현재 디렉토리 내 파일 리스트 출력
++ `load 파일명.확장자` : 파일명.확장자를 load 한다.
++ `load('파일명.확장자')` : 파일명.확장자를 load 한다.
++ `who` : 현재 workspace의 메모리에 저장된 모든 변수를 보여준다.
++ `whos` : 현재 workspace의 메모리에 저장된 모든 변수를 detail하게 보여준다.
++ `clear featureX` : 변수 featureX를 삭제한다.
++ `clear` : 모든 변수를 삭제한다.
+
+### 파일로 save하기
+
++ `v = priceY(1:10)` : priceY의 1부터 10번째 요소를 변수 v에 저장한다.
++ `save hello.mat v;` : 변수 v를 hello.mat 파일에 저장한다.
+    + binary 파일로 저장된다.
++ `load hello.mat` : hello.mat 파일을 불러온다.
++ `save hello.txt v -ascii` : ascii 포맷 텍스트로 저장한다.
+    + text 파일로 저장된다.
+
+### 데이터 manipulate하기
+
+#### index
+
++ `A = [1 2; 3 4; 5 6]` : 3 by 2 matrix 생성
++ `A(3,2)` : index(3, 2)에 해당하는 값을 출력 ([6])
++ `A(2,:)` : index(2, all)에 해당하는 값 출력 ([3,4])
++ `A(:,2)` : index(all, 2)에 해당하는 값 출력 ([2;4;6])
++ `A([1,3],:)` : 1번째 또는 3번째 row에 해당하는 모든 값 출력 ([1 2; 5 6])
+
+> **Note:** `:` : row나 column에 해당하는 모든 element  
+> **Note:** `;` : go to the next line (다음 row로 가라)
+
+#### assign
+
++ `A(:,2) = [10; 11; 12]` : A의 2번째 column의 값을 [10; 11; 12]로 바꾼다.
++ `A = [A, [100; 101; 102]]` : 행렬 A에 새로운 column을 append한다.
++ `A(:)` : A의 모든 요소를 single vector로 변환한다.
+
+#### concatenate
+
++ `A = [1 2; 3 4; 5 6];`
++ `B = [11 12; 13 14; 15 16];`
++ `C = [A B]` : 행렬 A와 B를 합친다. column으로 append된다.
+    + C = [1 2 11 12; 3 4 13 14; 5 6 15 16]
++ `C = [A; B]` : 행렬 A와 B를 합친다. row로 append된다.
+    + C = [1 2; 3 4; 5 6; 11 12; 13 14; 15 16]
+
+##  Computing on data
+
+@@@resume@@@
 
 
 ---
 
-# 2주차 ::: (5) Features and Polynomial Regression (부제: data에 fit하게 feature를 올바르게 선택하는 방법)
+# 2주차 ::: (5) Computing Parameters Analytically ::: Normal Equation
+
+## 용어 정리
+
++ `normal equation` : 모델의 parameter인 theta의 optimal value를 한 번에 분석적으로 찾는 방법
+    + gradient descent처럼 iterative하지 않고 한 번에 찾는다.
+
+## Summary
+
+model의 parameter theta 값을 찾아야 하는 상황에서 feature의 수가 10,000개 이하라면, 알고리즘을 반복해야 하는 gradient descent보다 한 번에 최적의 해를 찾는 normal equation을 사용하는 편이 더 나을 것이다.
+
+## Explain
+
+### normal equation이 parameter theta를 찾는 방법
+
++ normal equation은 gradient descent가 여러 번 iterative한 것과 달리 한 번에 최적의 해를 찾는다.
++ 방법은 아래와 같다.
+
+![w2_normal-equation1](images/w2_normal-equation1.png)
+![w2_normal-equation2](images/w2_normal-equation2.png)
+
++ 이를 일반화하여 설명하면 아래와 같다.
+
+![w2_normal-equation3](images/w2_normal-equation3.png)
+![w2_normal-equation2](images/w2_normal-equation2.png)
+
+### gradient descent vs normal equation
+
++ gradient descent와 normal equation은 다음과 같은 장단점이 있다.
++ Ng 교수에 따르면, `n >= 10,000` 부터는 gradient descent를 사용하면 된다.
+    + n = 10,000이라면, `(X^{T}X)^{-1}`에 대한 계산이 `10,000 * 10,000`이 되어 느려지기 때문이다.
+
+| gradient descent | normal equation |
+| :--- | :--- |
+| alpha 값을 설정해야 한다 | alpha 값을 설정할 필요 없다 |
+| 많은 iteration이 필요하다 | iteration이 필요 없다 |
+| n이 많아도 잘 작동한다 | n이 많으면 느려진다 |
+| O(k`n^2`) | O(`n^3`) to calculate `(X^{T}X)^{-1}` |
+
+> **Note:** n = number of features, m = number of training examples
+
+### Advanced ::: what if (X transpose X) is non-invertible?
+
++ 만약 (`X^{T}X`)가 non-invertible 하다면?
++ Octave에서 `inv()` 함수가 아니라 `pinv()` 함수를 사용하면 된다.
+    + p stands for pseudo
++ non-invertible에는 2가지 이유가 있다.
+    + 첫째, feature가 중복될 경우 (linearly dependent)
+        + 중복되는 feature를 없애줘야 한다.
+    + 둘째, feature가 너무 많을 경우 (e.g. m <= n)
+        + 일부 feature를 삭제하거나 regularization해야 한다.
+
+**끝.**
+
+---
+
+# 2주차 ::: (4) Features and Polynomial Regression (부제: data에 fit하게 feature를 올바르게 선택하는 방법)
 
 ## 용어 정리
 
@@ -86,8 +230,7 @@ Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 
 ---
 
-# 2주차 ::: (4) Gradient Descent in Practice II - Learning Rate
-
+# 2주차 ::: (3) Gradient Descent in Practice II - Learning Rate (부제: gradient descent가 제대로 작동하도록 learning rate 조절하기)
 
 ## 용어 정리
 
@@ -128,7 +271,7 @@ gradient descent가 제대로 작동하고 있는지 알려면 iterate할 때 �
 
 ---
 
-# 2주차 ::: (3) Gradient Descent in Practice I - Feature Scaling
+# 2주차 ::: (2) Gradient Descent in Practice I - Feature Scaling (부제: feature scaling을 해야 gradient descent가 빨라진다)
 
 ## Summary
 
@@ -168,12 +311,12 @@ gradient descent가 제대로 작동하고 있는지 알려면 iterate할 때 �
 
 ---
 
-# 2주차 ::: (1) Multivariate Linear Regression
+# 2주차 ::: (1) Multivariate Linear Regression (부제: 변수가 여러 개인 선형 회귀)
 
 ## 용어 정리
 
-+ m : training example의 수
-+ n : feature의 수
++ `m` : training example의 수
++ `n` : feature의 수
 + $ x^{(i)} $ : i번째 training example의 features를 원소로 하는 벡터
     + i는 training example의 index를 뜻함.
     + "테이블의 i번째 줄"을 보라는 뜻
@@ -247,25 +390,25 @@ n개의 features를 가진 점진적 하강 알고리즘은 위 그림과 같다
 
 ---
 
-# 1주차 ::: (5) Linear Algebra Review
+# 1주차 ::: (5) Linear Algebra Review (부제: 선형대수 기본 지식)
 
 ## Matrices and Vectors
 
 ## 용어 정리
 
-+ **matrix** : 숫자로 구성된 직사각형 배열 (= 2차원 배열 = 행렬)
-+ matrices : matrix의 복수형
-+ dimension of matrix : 행렬의 차원. row 개수 * column 개수. R로 표현.
-+ **vector** : 행렬의 특별한 케이스. column이 1개인 행렬. N by 1 matrix
-+ n-dimensional vector : row가 n개인 벡터
-+ **scalar** : 벡터나 행렬처럼 배열이 아니라 원소가 하나(single value)인 객체를 가리키는 말. 따라서 벡터나 행렬의 원소를 scalar라고 칭할 수 있음.
-+ real number : scalar와 같은 뜻이라고 봐도 무방
-+ **matrix vs. vector vs. scalar** : scalar가 2차원 배열로 구성되면 matrix이고, scalar가 2차원 배열이면서 column이 1개이면 vector가 됨.
-+ 대문자 변수 : 주로 matrix를 가리킴. ex. `Y`
-+ 소문자 변수 : 주로 vector를 가리킴. ex. `y`
-+ 1-indexed : 1부터 시작하는 index
-+ 0-indexed : 0부터 시작하는 index
-+ identity matrix : 단위 행렬. 곱셈에서 교환법칙이 성립되게 만드는 정사각 행렬
++ `matrix` : 숫자로 구성된 직사각형 배열 (= 2차원 배열 = 행렬)
++ `matrices` : matrix의 복수형
++ `dimension of matrix` : 행렬의 차원. row 개수 * column 개수. R로 표현.
++ `vector` : 행렬의 특별한 케이스. column이 1개인 행렬. N by 1 matrix
++ `n-dimensional vector` : row가 n개인 벡터
++ `scalar` : 벡터나 행렬처럼 배열이 아니라 원소가 하나(single value)인 객체를 가리키는 말. 따라서 벡터나 행렬의 원소를 scalar라고 칭할 수 있음.
++ `real number` : scalar와 같은 뜻이라고 봐도 무방
++ `matrix vs. vector vs. scalar` : scalar가 2차원 배열로 구성되면 matrix이고, scalar가 2차원 배열이면서 column이 1개이면 vector가 됨.
++ `대문자 변수` : 주로 matrix를 가리킴. ex. `Y`
++ `소문자 변수` : 주로 vector를 가리킴. ex. `y`
++ `1-indexed` : 1부터 시작하는 index
++ `0-indexed` : 0부터 시작하는 index
++ `identity matrix` : 단위 행렬. 곱셈에서 교환법칙이 성립되게 만드는 정사각 행렬
 
 ## Matrix-Vector Multiplication
 
@@ -343,22 +486,22 @@ n개의 features를 가진 점진적 하강 알고리즘은 위 그림과 같다
 
 ---
 
-# 1주차 ::: (4) Parameter Learning
+# 1주차 ::: (4) Parameter Learning (부제: 모델의 오차를 줄이는 parameter를 찾는 방법)
 
 ## 용어 정리
 
-+ gradient descent : (기울기에 대한) 점진적 하강
-+ convergence : 한 점으로의 수렴
-+ optimum : 점진적 하강으로 찾은 최소화 값
++ `gradient descent` : (기울기에 대한) 점진적 하강
++ `convergence` : 한 점으로의 수렴
++ `optimum` : 점진적 하강으로 찾은 최소화 값
 + `a:=b` : b를 a에 할당한다.
 + `alpha` : learning rate
-+ learning rate : 기울기가 하강한 정도
-+ large `alpha` : 기울기가 급격히 하강함
-+ simultaneous update : `theta-0`과 `theta-1`을 동시에 구함 (점진적 하강 알고리즘에 적용하는 규칙)
-+ differential : 접선의 기울기 (= 순간변화율 = 미분 = derivative)
-+ partial derivative : 편미분
-+ minimum : derivative가 0인 곳
-+ batch gradient descent : 점진적 하강은 한 번 하강할 때마다 모든 데이터셋 무리(the entire batch of training examples)를 이용한다는 것을 강조하는 말로 점진적 하강과 같은 말이다.
++ `learning rate` : 기울기가 하강한 정도
++ `large alpha` : 기울기가 급격히 하강함
++ `simultaneous update` : `theta-0`과 `theta-1`을 동시에 구함 (점진적 하강 알고리즘에 적용하는 규칙)
++ `differential` : 접선의 기울기 (= 순간변화율 = 미분 = derivative)
++ `partial derivative` : 편미분
++ `minimum` : derivative가 0인 곳
++ `batch gradient descent` : 점진적 하강은 한 번 하강할 때마다 모든 데이터셋 무리(the entire batch of training examples)를 iterate한다는 것을 강조하는 말로 점진적 하강과 같은 말이다.
 
 > **Note** derivative와 differential은 다른 개념이지만, 본 수업에서는 이해를 돕기 위해 같은 것으로 간주한다.
 
@@ -499,16 +642,16 @@ parameters에 따른 오차를 구하려면 비용 함수를 적용해야 한다
 
 ---
 
-# 1주차 ::: (3) Model and Cost Function
+# 1주차 ::: (3) Model and Cost Function (부제: 오차가 적은 모델을 구하는 방법)
 
 ## 용어 정리
 
-+ model : training data set을 일반화한 함수/방정식
-+ model representation : 모델 만들기
-+ hypothesis : 가설 함수 (=모델에 대한 함수/방정식)
-+ parameter : 가설 함수의 매개변수 (=함수의 기울기 또는 절편)
-+ error : 오차 (=가설 함수와 실제 데이터의 차이)
-+ cost function : 모델의 오차를 구하는 함수/방정식
++ `model` : training data set을 일반화한 함수/방정식
++ `model representation` : 모델 만들기
++ `hypothesis` : 가설 함수 (=모델에 대한 함수/방정식)
++ `parameter` : 가설 함수의 매개변수 (=함수의 기울기 또는 절편)
++ `error` : 오차 (=가설 함수와 실제 데이터의 차이)
++ `cost function` : 모델의 오차를 구하는 함수/방정식
 
 
 ## Model Representation
@@ -592,7 +735,7 @@ LSE는 Least Squared Error를 뜻한다.
 
 ---
 
-# 1주차 ::: (2) Regression
+# 1주차 ::: (2) Regression (부제: regression의 종류)
 
 ## 용어 정리
 
@@ -636,7 +779,7 @@ LSE는 Least Squared Error를 뜻한다.
 
 ---
 
-# 1주차 ::: (1) Introduction
+# 1주차 ::: (1) Introduction (부제: 머신러닝의 정의 및 supervised learning vs. unsupervised learning)
 
 ## 머신러닝이란 무엇인가?
 
