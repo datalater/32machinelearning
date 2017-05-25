@@ -7,7 +7,7 @@ Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 수학 기호 : ㅎ/ㄷ + 한자키
 
 **RESUME**  
-2주차 `https://www.coursera.org/learn/machine-learning/lecture/Y6uuC/computing-on-data`
+2주차 `https://www.coursera.org/learn/machine-learning/lecture/I7gx3/plotting-data`
 
 ---
 
@@ -20,6 +20,11 @@ Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 <li><a href="#1주차--4-parameter-learning">1주차 ::: (4) Parameter Learning</a></li>
 <li><a href="#1주차--5-linear-algebra-review">1주차 ::: (5) Linear Algebra Review</a></li>
 <li><a href="#2주차--1-multivariate-linear-regression">2주차 ::: (1) Multivariate Linear Regression</a></li>
+<li><a href="#2주차--2-gradient-descent-in-practice-i---feature-scaling-부제-feature-scaling을-해야-gradient-descent가-빨라진다">2주차 ::: (2) Gradient Descent in Practice I - Feature Scaling (부제: feature scaling을 해야 gradient descent가 빨라진다)</a></li>
+<li><a href="#2주차--3-gradient-descent-in-practice-ii---learning-rate-부제-gradient-descent가-제대로-작동하도록-learning-rate-조절하기">2주차 ::: (3) Gradient Descent in Practice II - Learning Rate (부제: gradient descent가 제대로 작동하도록 learning rate 조절하기)</a></li>
+<li><a href="#2주차--4-features-and-polynomial-regression-부제-data에-fit하게-feature를-올바르게-선택하는-방법">2주차 ::: (4) Features and Polynomial Regression (부제: data에 fit하게 feature를 올바르게 선택하는 방법)</a></li>
+<li><a href="#"></a></li>
+<li><a href="#"></a></li>
 <li><a href="#"></a></li>
 <li><a href="#"></a></li>
 <li><a href="#"></a></li>
@@ -29,7 +34,15 @@ Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 
 ---
 
-# 2주차 ::: (6) Octave
+# 2주차 ::: (7) Octave Tutorial (2/2)
+
+## Plotting Data
+
+
+
+---
+
+# 2주차 ::: (6) Octave Tutorial (1/2)
 
 ## Basic Operations
 
@@ -126,8 +139,96 @@ Coursera ML by Andrew Ng, ML 강의노트 by 박수진
 
 ##  Computing on data
 
-@@@resume@@@
+### 행렬 간 연산 & 원소 간 연산
 
++ `A = [1 2; 3 4; 5 6];`
++ `B = [11 12; 13 14; 15 16];`
++ `C = [1 1; 2 2]`
++ `A * C` = 행렬 A * 행렬 C
+    + ans = [5 5; 11 11; 17 17]
++ `A .* B` = 행렬 A의 원소 * 행렬 B의 원소
+    + ans = [11 24; 39 56; 75 96]
++ `A .^ 2` : A의 각 원소를 제곱
+    + ans = [1 4; 9 16; 25 36]
++ `v = [1; 2; 3]`
++ `1 ./ v` : 1 나누기 v의 각 원소
+    + ans = [1.00000; 0.50000; 0.33333]
+
+### log, exp, abs
+
++ `log(v)` : v의 각 원소에 log를 취함
++ `exp(v)` : v의 각 원소에 exponentiation을 취함
++ `abs(v)` : v의 각 원소에 절대값을 취함
++ `-v` : v의 각 원소에 minus를 취함
+
+> **Note:** `.` : element-wise operation
+
+### increment
+
++ `v + ones(length(v),1)` : 벡터 v의 원소를 +1씩 증가시킴
+    + v와 똑같은 길이의 단위행렬을 만들어서 더했음
++ `v + 1` : 벡터 v의 원소를 +1씩 증가시킴
+
+### transpose
+
++ `A'` : A transpose (A의 전치행렬)
+
+### max, index
+
++ `a = [1 15 2 0.5]`
++ `val = max(a)` : a의 최대값을 구한다.
++ `[val, ind] = max(a)` : a의 최대값과 최대값의 index 값을 구한다.
+    + index 값 기준 : `1-indexed`
++ `A = [1 2; 3 4; 5 6]`
++ `max(A)` : 행렬 A의 최대값을 구할 때는 column 기준으로 구한다.
+
+### 비교
+
++ `a = [1 15 2 0.5]`
++ `a < 3` : 각 원소에 비교를 적용한 후 비교 결과를 boolean으로 출력한다.
+    + ans = [1 0 1]
++ `find(a < 3)` : 몇 번째 값이 3보다 작은지 알려준다.
+    + ans = [1 3 4]
+
+### magic()
+
++ `A = magic(3)` : 모든 row와 column, 대각선의 합이 일치하는 3 by 3 행렬을 만든다.
+    + 머신러닝에서 유용한 기능은 아니지만 3 by 3 행렬을 생성하는 쉬운 방법이다.
++ `[r,c] = find(A >= 7)` : A의 원소 중 7보다 큰 것을 찾고 행주소와 열주소를 할당한다.
+
+### sum(), prod(), ceil()
+
++ `a = [1 15 2 0.5]`
++ `sum(a)` : a의 모든 원소를 더한다.
++ `prod(a)` : a의 모든 원소를 곱한다.
++ `floor(a)` : a의 모든 원소를 소수점 버림한다.
++ `ceil(a)` : a의 모든 원소를 소수점 올림한다.
+
+### max() 응용
+
++ `max(rand(3), rand(3))` : 가급적 값이 큰 random 값으로 이루어진 3 by 3 matrix 생성
++ `max(A,[],1)` : 행렬 A에서 각 column 내 가장 큰 값들을 추출
++ `max(A,[],2)` : 행렬 A에서 각 row 내 가장 큰 값들을 추출
++ `max(max(A))` : 행렬 A에서 가장 큰 원소를 추출
++ `max(A(:))` : 행렬 A를 single vector로 변환 후 가장 큰 원소를 추출
+
+### sum() 응용
+
++ `A = magic(9)` : 각 row, column, diagonal의 합이 일치하는 9 by 9 행렬 생성
++ `sum(A,1)` : 행렬 A의 각 column의 합을 출력
++ `sum(A,2)` : 행렬 A의 각 row의 합을 출력
+
+### filpud()
+
++ `flipud(eye(9))` : 9 by 9 단위 행렬을 대각선을 기준으로 up-down시킨다.
+
+### pinv()
+
++ `A = magic(3)`
++ `pinv(A)` : A의 역행렬
++ `pinv(A) * A` : 단위행렬
+
+**끝.**
 
 ---
 
